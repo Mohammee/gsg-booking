@@ -123,16 +123,16 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/forms/general.html" class="nav-link">
+                            <a href="{{ route('bookings.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List of Bookings</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/general.html" class="nav-link">
+                            <a href="{{ route('bookings.index', ['status' => 'pending']) }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Booking Requests</p>
-                                <span class="badge badge-info right">6</span>
+                                <span class="badge badge-info right">{{ \App\Models\Booking::where('status', 'pending')->count() }}</span>
 
                             </a>
                         </li>

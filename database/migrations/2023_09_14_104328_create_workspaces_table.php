@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->string('location');
             $table->integer('capacity');
-            $table->integer('booked_seats');
+            $table->integer('booked_seats')->nullable();
             $table->timestamps();
         });
     }

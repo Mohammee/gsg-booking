@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -47,15 +48,27 @@ class User extends Authenticatable
 
     public function scopeFilter(Builder $builder, $filters)
     {
-        $builder->when($filters['search'] ?? '', function($builder, $value){
-            $builder->where(function($builder) use($value){
+        $builder->when($filters['search'] ?? '', function ($builder, $value) {
+            $builder->where(function ($builder) use ($value) {
                 $builder->where('name', 'LIKE', "%{$value}%")
                     ->orWhere('email', 'LIKE', "%{$value}%");
             });
         });
     }
 
-    public function bookings(){
+    public function bookings()
+    {
         return $this->hasMany(Booking::class);
+    }
+
+
+    public function routeNotificationForMail($notification = null)
+    {
+        return [$this->email => $this->name];
+    }
+
+    public function preferredLocale()
+    {
+        return 'en';
     }
 }

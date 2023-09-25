@@ -74,6 +74,10 @@
                     <!-- Cart -->
                     <ul class="top-menu text-right list-inline">
                         <li>
+                            <x-user-notification count="3" />
+                        </li>
+
+                        <li>
                             <form action="{{ route('logout') }}" method="post">
                                 @csrf
                                 <button class="fs-5 btn"><i class="fas fa-sign-out-alt"></i>Logout</button>
@@ -121,7 +125,7 @@
 
                         <!-- Home -->
                         <li class="dropdown ">
-                            <a href="{{ route('site.booking-requests', Auth::id()) }}">Booking Requests</a>
+                            <a href="{{ route('site.booking-requests') }}">Booking Requests</a>
                         </li><!-- / Home -->
 
                         <!-- Blog -->

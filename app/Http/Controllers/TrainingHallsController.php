@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TrainingHallRequest;
 use Illuminate\Support\Str;
 use App\Models\TrainingHall;
 use Illuminate\Http\Request;
@@ -26,51 +27,19 @@ class TrainingHallsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        abort(404);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        abort(404);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        abort(404);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TrainingHall $trainingHall)
     {
-        $trainingHall = TrainingHall::findOrFail($id);
         return view('officeSpaces.trainingHalls.edit', compact('trainingHall'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TrainingHallRequest $request, TrainingHall $trainingHall)
     {
-        $trainingHall = TrainingHall::findOrFail($id);
-        $validated = $request->validate([
-            'name' => ['required'],
-            'description' => ['nullable', 'string'],
-            'location' => ['required', 'string'],
-            'capacity' => ['required', 'integer'],
-            'image_path' => ['nullable', 'image:jpeg,png,jpg']
-        ]);
+        $validated = $request->validated();
         if ($request->hasFile('image_path')) {
             File::delete(public_path('storage/' . $trainingHall->image_path));
             $file = $request->file('image_path');
@@ -88,9 +57,8 @@ class TrainingHallsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(TrainingHall $trainingHall)
     {
-        $trainingHall = TrainingHall::findOrFail($id);
         File::delete(public_path('storage/' . $trainingHall->image_path));
         $trainingHall->delete();
         return redirect()->route('trainingHalls.index')->with('msg', 'Training Hall Deleted Successfully')->with('type', 'danger');

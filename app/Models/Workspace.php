@@ -11,7 +11,7 @@ class Workspace extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'location', 'capacity', 'image_path'
+        'name', 'description', 'location', 'capacity', 'image_path', 'booked_seats'
     ];
 
     protected static function booted()

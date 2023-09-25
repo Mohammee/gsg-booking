@@ -51,7 +51,13 @@
             <tbody>
                 @foreach ($userBookings as $userBooking)
                     <tr>
-                        <td>{{ $userBooking->trainingHall->name }}</td>
+                        <td>
+                            @if ($userBooking->training_hall_id)
+                            {{ $userBooking->trainingHall->name }}
+                            @else
+                               {{ $userBooking->workspace->name }}
+                            @endif
+                        </td>
                         <td>
                             @if ($userBooking->training_hall_id)
                                 Training Hall
@@ -71,7 +77,7 @@
                         @endif
                         <td>
                             <button type="submit" class="btn-delete btn text-danger"><i class="fas fa-trash"></i></button>
-                            <form action="{{ route('site.trainingHall.destroy', $userBooking->id) }}" method="post"
+                            <form action="{{ route('site.bookings.destroy', $userBooking->id) }}" method="post"
                                 class="d-inline">
                                 @csrf
                                 @method('delete')

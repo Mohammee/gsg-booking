@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MembmerRequset;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,11 +36,6 @@ class MembersController extends Controller
         $type = session('type');
         return view('members.users', compact('users', 'msg', 'type', 'usersCount'));
     }
-    public function index()
-    {
-        abort(404);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -74,14 +70,6 @@ class MembersController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        abort(404);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
@@ -93,15 +81,8 @@ class MembersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MembmerRequset $request, User $member)
     {
-        $member = User::findOrFail($id);
-        $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
-            'role' => ['required'],
-        ]);
         $role = $request->input('role');
         $member->update([
             'name' => $request->input('name'),

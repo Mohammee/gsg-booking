@@ -28,6 +28,11 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->foreignId('workspace_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->integer('booked_seats')->nullable()->default(0);
             $table->timestamps();
         });
     }
